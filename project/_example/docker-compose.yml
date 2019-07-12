@@ -1,0 +1,110 @@
+#{{PROJECT_NAME}}
+#{{PROJECT_LOCAL_DOMAIN}}
+version: "3"
+
+networks:
+  frontend:
+  backend:
+
+services:
+
+  # nginx
+  nginx:
+    container_name: nginx
+    networks:
+      - backend
+      - frontend
+    image: nginx:1.15
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./log/nginx:/var/log/nginx
+      - ./ssl:/etc/ssl
+      - ${DOCUMENT_ROOT}:/var/www/html/{{PROJECT_NAME}}
+      - ./project/{{PROJECT_NAME}}/nginx/conf:/etc/nginx/conf.d
+
+  # php
+  php:
+    container_name: php
+    networks:
+      - backend
+    image: coretechtw/php:7.3-fpm
+    expose:
+      - 9000
+    ports:
+      - "8000:8000"
+    tty: true
+    volumes:
+      - ./conf/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./conf/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./conf/php/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ${DOCUMENT_ROOT}:/var/www/html/{{PROJECT_NAME}}
+
+#  # apache
+#  apache:
+#    container_name: apache
+#    networks:
+#      - backend
+#      - frontend
+#    image: coretechtw/php:7.0-apache
+#    ports:
+#      - "443:443"
+#      - "80:80"
+#    volumes:
+#      - ./conf/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+#      - ./conf/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+#      - ./ssl:/etc/ssl
+#      - ./log/apache:/var/log/apache
+#      - ./project/{{PROJECT_NAME}}/apache/conf:/etc/apache2/sites-enabled
+#      - ${DOCUMENT_ROOT}:/var/www/html/{{PROJECT_NAME}}
+#      - ./project/{{PROJECT_NAME}}/php/project.ini:/usr/local/etc/php/conf.d/project.ini
+#
+#  # mysql
+#  mysql:
+#    container_name: mysql
+#    networks:
+#      - backend
+#    ports:
+#      - "3306:3306"
+#    image: mysql:5.6
+#    environment:
+#      MYSQL_ROOT_PASSWORD: admin
+#      MYSQL_DATABASE: {{PROJECT_NAME}}
+#      MYSQL_USER: test
+#      MYSQL_PASSWORD: test
+#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_use_native_aio=0
+#    volumes:
+#      - ./mysql/data/{{PROJECT_NAME}}:/var/lib/mysql
+#      - ./project/{{PROJECT_NAME}}/sql:/include_sql
+#
+#  # phpmyadmin
+#  phpmyadmin:
+#    container_name: phpmyadmin
+#    networks:
+#      - frontend
+#      - backend
+#    image: phpmyadmin/phpmyadmin:4.8
+#    ports:
+#      - "8080:80"
+#    volumes:
+#      - ./conf/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+#    environment:
+#      PMA_HOST: mysql
+#
+#  # phpmyadmin_pre
+#  phpmyadmin_pre:
+#    container_name: phpmyadmin_pre
+#    networks:
+#      - frontend
+#      - backend
+#    image: phpmyadmin/phpmyadmin:4.8
+#    ports:
+#      - "8081:80"
+#    volumes:
+#      - ./conf/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+#    environment:
+#      PMA_HOST:
+#      PMA_PORT: 3306
+#      PMA_USER:
+#      PMA_PASSWORD:
