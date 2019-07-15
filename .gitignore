@@ -3,11 +3,7 @@
 
 # exclude log files
 log
-*.log
-
-# exclude old files
-/apache
-/nginx
+log/*
 
 # exclude ide files
 .buildpath
@@ -23,13 +19,3 @@ log
 
 # Temp Dockerfile
 */Dockerfile
-
-# jenkins files
-jenkins_home/
-
-project/*/sql/*.sql
-project/*/.env
-custom.ini
-xdebug.ini
-xdebug.ini.example_mac_phpstorm
-xdebug.md

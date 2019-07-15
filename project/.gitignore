@@ -1,4 +1,5 @@
 *
 !_example
+!_example/*
 !.env.example
 !.gitignore

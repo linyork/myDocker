@@ -450,7 +450,6 @@ do
             echo  -e "  \033[31mnewpj.\033[0m  建立新專案"
             echo  -e "  \033[31msa.\033[0m     顯示整份yml"
             echo  -e "  \033[31mimg.\033[0m    顯示本機所有image"
-            echo  -e "  \033[31mrmif.\033[0m   移除所有tw-registry的images"
             echo  -e "  \033[31m*.\033[0m      離開進階工具(按任按鍵)"
             printPartition
 
@@ -563,12 +562,6 @@ do
                     # 顯示所有 image
                     docker images
                     pressAnyKeyToContinue
-                    ;;
-                rmif)
-                    clear
-                    printFace
-                    # 移除所有tw-registry的images
-                    docker rmi -f $(docker images | grep "tw-registry" | awk '{print $3}')
                     ;;
                 *)
                     clear
