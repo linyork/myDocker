@@ -1,3 +1,35 @@
-# base
-.idea
+# operator system files
+.DS_Store
+
+# exclude log files
 log
+*.log
+
+# exclude old files
+/apache
+/nginx
+
+# exclude ide files
+.buildpath
+.project
+.idea
+.vscode
+
+# exclude temp
+/current-compose-config.yml
+/docker-compose.yml
+/project/test
+/test.sh
+
+# Temp Dockerfile
+*/Dockerfile
+
+# jenkins files
+jenkins_home/
+
+project/*/sql/*.sql
+project/*/.env
+custom.ini
+xdebug.ini
+xdebug.ini.example_mac_phpstorm
+xdebug.md
