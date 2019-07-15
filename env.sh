@@ -66,8 +66,8 @@ initCommend() {
     declare commendArray
     declare stringArray
 
-    commendArray=(a n r c l s i p q)
-    stringArray=('啟動編號' '跳置編號' '重啟' '關閉' '狀態' '查詢' '進入' '更新Image' '結束')
+    commendArray=(a n r c l s i p d q)
+    stringArray=('啟動編號' '跳置編號' '重啟' '關閉' '狀態' '查詢' '進入' '更新Image' '刪除' '結束')
 
     for key in ${!commendArray[@]}
     do
@@ -441,6 +441,33 @@ do
             clear
             printFace
             docker-compose -p core_docker --project-directory . -f ${_SELECTED_PROJECT_YML} pull
+            ;;
+        d)
+            clear
+            printFace
+            # 詢問是否刪除該專案document
+            printf "\E[0;31m"
+            echo -e "請問是否刪除專案 ${_SELECTED_PROJECT_NAME} 的檔案(y/n)"
+            read -p "輸入: " yesno
+            printf "\E[0m"
+            if [[ ${yesno} = 'y' || ${yesno} = 'Y' ]]; then
+                pwd
+            fi
+            printf "\E[0m"
+            printPartition
+
+            # 詢問是否刪除該專案
+            printf "\E[0;31m"
+            echo "請問是否刪除專案 ${_SELECTED_PROJECT_NAME} 的環境(y/n)"
+            read -p "輸入: " yesno
+            printf "\E[0m"
+            if [[ ${yesno} = 'y' || ${yesno} = 'Y' ]]; then
+                rm -r ./project/${_SELECTED_PROJECT_NAME}
+                echo "已刪除"
+            fi
+            printPartition
+
+            pressAnyKeyToContinue
             ;;
         x)
             clear
